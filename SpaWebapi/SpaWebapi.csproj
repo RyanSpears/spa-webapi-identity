@@ -212,9 +212,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201404232156263_AddUserEmail.cs" />
-    <Compile Include="Migrations\201404232156263_AddUserEmail.Designer.cs">
-      <DependentUpon>201404232156263_AddUserEmail.cs</DependentUpon>
+    <Compile Include="Migrations\201404240225418_SomeMigration.cs" />
+    <Compile Include="Migrations\201404240225418_SomeMigration.Designer.cs">
+      <DependentUpon>201404240225418_SomeMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -302,8 +302,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201404232156263_AddUserEmail.resx">
-      <DependentUpon>201404232156263_AddUserEmail.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201404240225418_SomeMigration.resx">
+      <DependentUpon>201404240225418_SomeMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

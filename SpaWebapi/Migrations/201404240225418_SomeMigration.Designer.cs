@@ -7,13 +7,13 @@ namespace SpaWebapi.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.0.0-20911")]
-    public sealed partial class AddUserEmail : IMigrationMetadata
+    public sealed partial class SomeMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddUserEmail));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(SomeMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "201404232156263_AddUserEmail"; }
+            get { return "201404240225418_SomeMigration"; }
         }
         
         string IMigrationMetadata.Source
