@@ -1,31 +1,70 @@
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SpaWebapi.DataAccess;
+using SpaWebapi.Models;
+
 namespace SpaWebapi.Migrations
 {
     using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<SpaWebapi.DataAccess.SwDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<SwDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(SpaWebapi.DataAccess.SwDbContext context)
+        protected override void Seed(SwDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            if (!context.Users.Any(u => u.UserName == "ryanspears"))
+            {
+                var user = AddAdminUser(context);
+                AddExpense(context, user);
+            }
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            base.Seed(context);
+        }
+
+        private static User AddAdminUser(IdentityDbContext<User> context)
+        {
+            if (!context.Roles.Any(r => r.Name == "admin"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "admin" };
+
+                manager.Create(role);
+            }
+
+            if (!context.Users.Any(u => u.UserName == "ryanspears"))
+            {
+                var store = new UserStore<User>(context);
+                var manager = new UserManager<User>(store);
+                var user = new User { UserName = "ryanspears", Email = "sperj001@hotmail.com" };
+
+                manager.Create(user, "password");
+                manager.AddToRole(user.Id, "admin");
+
+                return user;
+            }
+
+            return context.Users.First(u => u.UserName == "ryanspears");
+        }
+
+        private static void AddExpense(SwDbContext context, User user)
+        {
+            context.Expenses.AddOrUpdate(
+                expense => expense.CreatedDate,
+                new Expense
+                {
+                    CreatedDate = DateTime.Now,
+                    Amount = 10023.78m,
+                    User = user
+                });
+
+            context.SaveChanges();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -29,6 +30,10 @@ namespace SpaWebapi
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 AllowInsecureHttp = true
             };
+
+            Database.SetInitializer(new SwDbContextInitializer());
+            var context = new SwDbContext();
+            context.Database.Initialize(force: true);
         }
 
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
